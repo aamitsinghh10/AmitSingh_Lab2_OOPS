@@ -12,7 +12,7 @@ public class DriverClass {
         System.out.println("Select what Menu you want to Order from Menu Items Available:");
         AvailableMenu menu = new AvailableMenu();
         menu.getMenu();
-        NotificationSystem notification = new NotificationSystem();
+        
         Kitchen kitchen = new Kitchen();
         OrderingSystem orderingSystem = new OrderingSystem(customer);
         PaymentStatus payment = new PaymentStatus(false);
@@ -24,15 +24,9 @@ public class DriverClass {
             option = obj.nextInt();
             AcceptOrders(option);
         }while(option<3);
-
-        kitchen.setNotification(notification);
+        
         orderingSystem.setCustomerDetails(customer);
-        notification.setOrderingSystem(orderingSystem);
-        notification.setCustomerInfo(customer);
-        notification.setKitchen(kitchen);
-
-        notification.orderList();
-
+        
         System.out.println("You Bill for Meal:");
         System.out.println(orderingSystem.OrderSummary());
         System.out.println("Payment Status");
