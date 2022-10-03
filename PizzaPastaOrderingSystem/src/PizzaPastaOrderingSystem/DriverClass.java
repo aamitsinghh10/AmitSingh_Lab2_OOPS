@@ -8,11 +8,10 @@ public class DriverClass {
     static Scanner obj = new Scanner(System.in);
     static CustomerInfo customer = new CustomerInfo("Amit Singh",894984010);
     public static void main(String[] args){
-
         System.out.println("Select what Menu you want to Order from Menu Items Available:");
         AvailableMenu menu = new AvailableMenu();
         menu.getMenu();
-        
+        NotificationSystem notification = new NotificationSystem();
         Kitchen kitchen = new Kitchen();
         OrderingSystem orderingSystem = new OrderingSystem(customer);
         PaymentStatus payment = new PaymentStatus(false);
@@ -24,9 +23,12 @@ public class DriverClass {
             option = obj.nextInt();
             AcceptOrders(option);
         }while(option<3);
-        
+        kitchen.setNotification(notification);
         orderingSystem.setCustomerDetails(customer);
-        
+        notification.setOrderingSystem(orderingSystem);
+        notification.setCustomerInfo(customer);
+        notification.setKitchen(kitchen);
+        notification.orderList();
         System.out.println("You Bill for Meal:");
         System.out.println(orderingSystem.OrderSummary());
         System.out.println("Payment Status");
@@ -45,7 +47,7 @@ public class DriverClass {
                 String size = obj.next();
                 System.out.println("Choose crust for your Order: Thick, Thin");
                 String crust = obj.next();
-                System.out.println("Add Toppings?: yes or No");
+                System.out.println("Add Toppings?: Yes or No");
                 String addToppings = obj.next();
                 List<Toppings> toppings = new ArrayList<>();
 
@@ -56,8 +58,7 @@ public class DriverClass {
                     System.out.println("Add toppings as per Pizza");
                     for(int i=0;i<num;i++){
                         String topping = obj.next();
-                        toppings.add(Toppings.valueOf(topping));
-                    }
+                        toppings.add(Toppings.valueOf(topping));}
                 }
                 OrderRequest order = new OrderRequest();
                 System.out.println("Total Quantity of Items?");
@@ -66,10 +67,9 @@ public class DriverClass {
                                                        PizzaFlavour.valueOf(flavour),toppings,quantity);
                 order.setPizzaOrder(pizzaOrder);
                 customer.addOrder(order);
-                break;
-            }
-            case 2:{
-                System.out.println("PASTA");
+                break; }
+            case 2:
+            {   System.out.println("PASTA");
                 System.out.println("Enter flavour of your Pasta: Red-Sauce,White-Sauce");
                 String flavour = obj.next();
                 System.out.println("Select type of Pizza: Penne, Ditalini");
@@ -81,8 +81,7 @@ public class DriverClass {
                 PastaOrder pastaOrder = new PastaOrder(PastaFlavour.valueOf(flavour),PastaTypes.valueOf(type),quantity);
                 order.setPastaOrder(pastaOrder);
                 customer.addOrder(order);
-                break;
-            }
+                break;  }
             default:
                 break;
         }
